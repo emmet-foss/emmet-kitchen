@@ -78,9 +78,7 @@ class Stores extends Component {
             <List.Item
               key={item.name}
               actions={[
-                <IconText type="book" id={item._id} url="menus" location={location} />,
-                <IconText type="delete" id={item._id} url="remove" location={location} />,
-                <IconText type="like-o" id={item._id} url="like" location={location} />]}
+                <IconText type="book" id={item._id} url="orders" location={location} />,
               extra={<img width={272} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />}
             >
               <List.Item.Meta

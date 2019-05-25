@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
+import { Link } from 'react-router-dom';
 import { withRouter } from "react-router";
-import { List, Avatar } from 'antd';
+import { Icon, List, Avatar } from 'antd';
 import emmetAPI from '../../emmetAPI';
 import 'antd/dist/antd.css';
 import './List.css';
@@ -17,7 +18,16 @@ for (let i = 0; i < 23; i++) {
   });
 }
 
-class MenuItems extends Component {
+const IconText = ({ type, text, id, url }) => (
+  <span>
+    <Link to={`/stores/${id}/${url}`}>
+      <Icon type={type} style={{ marginRight: 8 }} />
+      {text}
+    </Link>
+  </span>
+);
+
+class Orders extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
@@ -34,46 +44,51 @@ class MenuItems extends Component {
 
   componentDidMount() {
     this.callApi()
-      .then(res => this.setState({ response: res.menuItems }))
+      .then(res => this.setState({ response: res.stores }))
       .catch(err => console.log(err));
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.location !== this.props.location) {
       this.callApi()
-        .then(res => this.setState({ response: res.menuItems }))
-        .catch(err => console.log(err));
+      .then(res => this.setState({ response: res.stores }))
+      .catch(err => console.log(err));
     }
   }
 
   callApi = async () => {
-    const { storeId, menuId } = this.props.match.params;
-    const response = await emmetAPI.getUrl(`/api/v1/stores/${storeId}/menus/${menuId}`);
+    const location = this.props.location.pathname.split('/')[1];
+    const response = await emmetAPI.getUrl(`/api/v1/${location}`);
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
   };
 
   render() {
-    const menuItems = this.state.response || [];
+    const stores = this.state.response || [];
+    const location = this.props.location.pathname.split('/')[1];
 
     return (
       <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
         <List
           itemLayout="vertical"
           size="large"
-          dataSource={menuItems}
+          dataSource={stores}
           renderItem={item => (
             <List.Item
               key={item.name}
+              actions={[
+                <IconText type="book" id={item._id} url="menus" location={location} />,
+                <IconText type="delete" id={item._id} url="remove" location={location} />,
+                <IconText type="like-o" id={item._id} url="like" location={location} />]}
               extra={<img width={272} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />}
             >
               <List.Item.Meta
                 avatar={<Avatar src={item.name} />}
                 title={item.name}
-                description={item.description}
+                description={item.location}
               />
-              <div>Available on: {item.date_available}</div>
+              {item.description}
             </List.Item>
           )}
         />
@@ -82,4 +97,4 @@ class MenuItems extends Component {
   }
 }
 
-export default withRouter(MenuItems);
+export default withRouter(Orders);

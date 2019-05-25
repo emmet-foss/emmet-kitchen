@@ -4,7 +4,7 @@ import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 import Notfound from './components/notfound';
-import ContentWrapper from './components/ContentWrapper';
+import KitchenWrapper from './components/KitchenWrapper';
 import * as serviceWorker from './serviceWorker';
 
 import './index.css';
@@ -29,11 +29,8 @@ function loggedIn() {
 const routing = (
     <Router>
         <Switch>
-            <Route exact path="/" component={ContentWrapper} />
-            <Route path="/stores" component={ContentWrapper} />
-            <Route path="/orders" component={ContentWrapper} />
-            <Route path="/checkout" component={ContentWrapper} onEnter={requireAuth} />
-            <Route path="/guest" component={ContentWrapper} />
+            <Route exact path="/" component={KitchenWrapper} />
+            <Route path="/orders" component={KitchenWrapper} />
             <Route component={Notfound} />
         </Switch>
     </Router>
