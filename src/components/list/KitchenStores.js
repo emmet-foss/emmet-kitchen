@@ -27,7 +27,7 @@ const IconText = ({ type, text, id, url }) => (
   </span>
 );
 
-class Stores extends Component {
+class KitchenStores extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
@@ -79,6 +79,7 @@ class Stores extends Component {
               key={item.name}
               actions={[
                 <IconText type="book" id={item._id} url="orders" location={location} />,
+              ]}
               extra={<img width={272} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />}
             >
               <List.Item.Meta
@@ -95,4 +96,4 @@ class Stores extends Component {
   }
 }
 
-export default withRouter(Stores);
+export default withRouter(KitchenStores);
