@@ -18,9 +18,9 @@ for (let i = 0; i < 23; i++) {
   });
 }
 
-const IconText = ({ type, text, id, url }) => (
+const IconText = ({ type, text, id }) => (
   <span>
-    <Link to={`/stores/${id}/${url}`}>
+    <Link to={`/orders/${id}`}>
       <Icon type={type} style={{ marginRight: 8 }} />
       {text}
     </Link>
@@ -35,38 +35,32 @@ class KitchenStores extends Component {
   };
 
   state = {
-    response: [],
-    name: '',
-    location: '',
-    responseToPost: '',
-    collapsed: false,
+    stores: [],
   };
 
   componentDidMount() {
     this.callApi()
-      .then(res => this.setState({ response: res.stores }))
+      .then(res => this.setState({ stores: res.stores }))
       .catch(err => console.log(err));
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.location !== this.props.location) {
       this.callApi()
-      .then(res => this.setState({ response: res.stores }))
+      .then(res => this.setState({ stores: res.stores }))
       .catch(err => console.log(err));
     }
   }
 
   callApi = async () => {
-    const location = this.props.location.pathname.split('/')[1];
-    const response = await emmetAPI.getUrl(`/api/v1/${location}`);
+    const response = await emmetAPI.getUrl(`/api/v1/stores`);
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
   };
 
   render() {
-    const stores = this.state.response || [];
-    const location = this.props.location.pathname.split('/')[1];
+    const { stores } = this.state;
 
     return (
       <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
@@ -78,7 +72,7 @@ class KitchenStores extends Component {
             <List.Item
               key={item.name}
               actions={[
-                <IconText type="book" id={item._id} url="orders" location={location} />,
+                <IconText type="book" id={item._id} />,
               ]}
               extra={<img width={272} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />}
             >

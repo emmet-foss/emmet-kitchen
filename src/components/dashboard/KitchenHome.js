@@ -40,6 +40,14 @@ class KitchenHome extends Component {
     return body;
   };
 
+  getAvailableDates = async (location) => {
+    const response = await emmetAPI.getUrl(`/api/v1/stores/menus?location=${location}`)
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+  };
+
+
   render() {
     const {
       stores,
