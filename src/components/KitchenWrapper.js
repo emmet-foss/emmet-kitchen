@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import { withRouter } from "react-router";
 import { Layout } from 'antd';
 
-import { KitchenStores, Orders } from './list';
+import { KitchenStores, StoreOrders } from './list';
 import { KitchenHome } from './dashboard';
 import SideMenu from './sidemenu/SideMenu';
 
@@ -32,8 +32,8 @@ class KitchenWrapper extends Component {
           <Content style={{ margin: '24px 16px 0' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
               <Route exact path="/" component={KitchenHome} />
-              <Route exact path="/orders" component={KitchenStores} />
-              <Route exact path="/orders/:storeId" component={Orders} />
+              <Route exact path="/stores" component={KitchenStores} />
+              <Route exact path="/stores/:storeId" component={StoreOrders} />
             </div>
           </Content>
         </Layout>

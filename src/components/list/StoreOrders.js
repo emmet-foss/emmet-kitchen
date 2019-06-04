@@ -27,7 +27,7 @@ const IconText = ({ type, text, id, url }) => (
   </span>
 );
 
-class Orders extends Component {
+class StoreOrders extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
@@ -70,31 +70,10 @@ class Orders extends Component {
 
     return (
       <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-        <List
-          itemLayout="vertical"
-          size="large"
-          dataSource={stores}
-          renderItem={item => (
-            <List.Item
-              key={item.name}
-              actions={[
-                <IconText type="book" id={item._id} url="menus" location={location} />,
-                <IconText type="delete" id={item._id} url="remove" location={location} />,
-                <IconText type="like-o" id={item._id} url="like" location={location} />]}
-              extra={<img width={272} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />}
-            >
-              <List.Item.Meta
-                avatar={<Avatar src={item.name} />}
-                title={item.name}
-                description={item.location}
-              />
-              {item.description}
-            </List.Item>
-          )}
-        />
+        
       </div>
     );
   }
 }
 
-export default withRouter(Orders);
+export default withRouter(StoreOrders);

@@ -17,6 +17,7 @@ const Option = Select.Option;
 class KitchenHome extends Component {
   state = {
     stores: [],
+    availableDates: [],
   };
 
   componentDidMount() {
@@ -40,19 +41,35 @@ class KitchenHome extends Component {
     return body;
   };
 
-  getAvailableDates = async (location) => {
-    const response = await emmetAPI.getUrl(`/api/v1/stores/menus?location=${location}`)
+  getAvailableDates = async (storeId) => {
+    const response = await emmetAPI.getUrl(`/api/v1/stores/available_dates?storeId=${storeId}`)
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
   };
 
+  handleKitchenSelect = async (storeId) => {
+    this.setState({
+      selectedStore: storeId,
+    });
+
+    this.getAvailableDates(storeId)
+      .then(res => {
+        this.setState({
+          loading: false,
+          availableDates: res.availableDates,
+        })
+      })
+      .catch(err => console.log(err));
+  };
 
   render() {
     const {
       stores,
+      selectedStore,
+      availableDates,
     } = this.state;
-
+    const displayAvailableDates = selectedStore !== '';
     return (
       <PageHeader
         title={`Welcome to Emmet Kitchen!`}
@@ -67,6 +84,8 @@ class KitchenHome extends Component {
                   style={{ width: '100%' }}
                   placeholder="Select a kitchen"
                   dropdownMatchSelectWidth={false}
+                  onChange={this.handleKitchenSelect}
+                  value={selectedStore}
                 >
                   {stores.map(store => {
                     return <Option key={store._id} value={store.name}>{store.name}</Option>
@@ -74,6 +93,23 @@ class KitchenHome extends Component {
                 </Select>
               </Col>
             </Row>
+            {displayAvailableDates &&
+              <Row>
+                <Col xs={24} sm={24} md={24} lg={12}>
+                  <Statistic value="Here are the available dates" />
+                  <Select
+                    showSearch
+                    style={{ width: '100%' }}
+                    placeholder="Choose a date"
+                    dropdownMatchSelectWidth={false}
+                  >
+                    {availableDates.map(availableDate => {
+                      return <Option key={availableDate} value={availableDate}>{availableDate}</Option>
+                    })}
+                  </Select>
+                </Col>
+              </Row>
+            }
           </div>
         </div>
       </PageHeader>

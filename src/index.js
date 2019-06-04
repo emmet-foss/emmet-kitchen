@@ -12,7 +12,7 @@ const routing = (
     <Router>
         <Switch>
             <Route exact path="/" component={KitchenWrapper} />
-            <Route path="/orders" component={KitchenWrapper} />
+            <Route path="/stores" component={KitchenWrapper} />
             <Route component={Notfound} />
         </Switch>
     </Router>
