@@ -51,7 +51,6 @@ class StoreCalendar extends Component {
 
   getAvailableDates = async () => {
     const storeId = this.props.location.pathname.split('/')[2];
-    console.log('storeId', storeId)
     const response = await emmetAPI.getUrl(`/api/v1/stores/${storeId}/available_dates`);
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
@@ -59,9 +58,13 @@ class StoreCalendar extends Component {
     return body;
   };
 
+  goToOrderDate = async (orderDate) => {
+    const storeId = this.props.location.pathname.split('/')[2];
+    this.props.history.push(`/stores/${storeId}/orders?orderDate=${orderDate.format("YYYY-MM-DD")}`)
+  };
+
   render() {
     const { availableDates, loading } = this.state;
-    console.log('availableDates', availableDates)
 
     if (loading) {
       return <div>loading</div>
@@ -78,6 +81,7 @@ class StoreCalendar extends Component {
                   disabledDate={(date) => {
                     return availableDates.indexOf(date.format("YYYY-MM-DD")) === -1;
                   }}
+                  onSelect={this.goToOrderDate}
                 />
               </Col>
             </Row>
