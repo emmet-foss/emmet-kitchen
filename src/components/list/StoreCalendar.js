@@ -73,7 +73,8 @@ class StoreCalendar extends Component {
               <Col xs={24} sm={24} md={24} lg={12}>
                 <Statistic value="Please select a date to process." />
                 <Calendar
-                  defaultValue={null}
+                  style={{ border: '1px solid #d9d9d9', borderRadius: 4 }}
+                  fullscreen={false}
                   disabledDate={(date) => {
                     return availableDates.indexOf(date.format("YYYY-MM-DD")) === -1;
                   }}
