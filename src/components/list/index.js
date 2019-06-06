@@ -1,2 +1,2 @@
 export { default as KitchenStores } from './KitchenStores';
-export { default as StoreOrders } from './StoreOrders';
+export { default as StoreCalendar } from './StoreCalendar';

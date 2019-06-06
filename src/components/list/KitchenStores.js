@@ -61,21 +61,21 @@ class KitchenStores extends Component {
                 itemLayout="vertical"
                 size="large"
                 dataSource={stores}
-                renderItem={item => (
+                renderItem={store => (
                   <List.Item
-                    key={item.name}
+                    key={store.name}
                     extra={<img width={272} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />}
                   >
                     <List.Item.Meta
-                      avatar={<Avatar src={item.name} />}
+                      avatar={<Avatar src={store.name} />}
                       title={
-                        <Link to={`/stores/${item._id}`}>
-                          {item.name}
+                        <Link to={`/stores/${store._id}/orders`}>
+                          {store.name}
                         </Link>
                       }
-                      description={item.location}
+                      description={store.location}
                     />
-                    {item.description}
+                    {store.description}
                   </List.Item>
                 )}
               />
